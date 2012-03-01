@@ -48,7 +48,8 @@ PS_INPUT VS(VS_INPUT input)
 float4 PS(PS_INPUT input) : SV_Target
 {
 	// Final colour for pixel just uses the normal.
-    return float4(input.Norm.x, input.Norm.x, input.Norm.x, 1.0f );
+	float s = min(1, input.Norm.x + input.Norm.y);
+    return float4(s, s, s, 1.0f );
 }
 
 
