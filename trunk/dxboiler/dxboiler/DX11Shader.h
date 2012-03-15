@@ -73,33 +73,12 @@ public:
     UpdateConstantBuffer();
     dc->UpdateSubresource(m_buf, 0, NULL, &m_cb, 0, 0);
     dc->VSSetConstantBuffers(0, 1, &m_buf);
+    dc->PSSetConstantBuffers(0, 1, &m_buf); 
   }
 
 protected:
   CONSTANT_BUFFER m_cb;
   ID3D11Buffer* m_buf;
-};
-
-// Very simple: just mview and proj matrices
-struct ConstantBuffer
-{
-  XMMATRIX mView;
-  XMMATRIX mProjection;
-};
-
-class SimplestShader : public DX11ShaderWithCB<ConstantBuffer>
-{
-public:
-  virtual void UpdateConstantBuffer()
-  {
-    float view[16];
-    DX11::GetMatrix(DX11_MODELVIEW_MATRIX, view);
-    float proj[16];
-    DX11::GetMatrix(DX11_PROJECTION_MATRIX, proj);
-
-    m_cb.mView = XMMatrixTranspose(view); // TODO Why transpose
-    m_cb.mProjection = XMMatrixTranspose(proj);
-  }
 };
 
 #endif

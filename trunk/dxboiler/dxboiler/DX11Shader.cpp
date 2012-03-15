@@ -12,7 +12,7 @@ This source code (c) Copyright Jason Colman 2012.
 #include "ReportError.h"
 
 // From DXSDK tutorial
-HRESULT CompileShaderFromFile(const char* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut )
+HRESULT CompileShaderFromFile(const char* fileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut )
 {
   HRESULT hr = S_OK;
 
@@ -29,9 +29,9 @@ HRESULT CompileShaderFromFile(const char* szFileName, LPCSTR szEntryPoint, LPCST
 
   // Read text from file
   DX11ShaderFile shFile;
-  if (!shFile.OpenRead(szFileName))
+  if (!shFile.OpenRead(fileName))
   {
-    ReportError("Failed to open DX11 shader file");
+    ReportError(std::string("Failed to open DX11 shader file ") + fileName);
     return ~S_OK;
   }
 
@@ -46,7 +46,7 @@ HRESULT CompileShaderFromFile(const char* szFileName, LPCSTR szEntryPoint, LPCST
 
   hr = D3DX11CompileFromMemory(
     text.c_str(), text.size(), 
-    szFileName, // path
+    fileName, // path
     0, 0, szEntryPoint, szShaderModel, dwShaderFlags, 0, 0, ppBlobOut, &pErrorBlob, 0);
 
   if (FAILED(hr))
@@ -88,7 +88,6 @@ bool DX11Shader::Load(const std::string& fxFileName)
   HRESULT hr = CompileShaderFromFile(fxFileName.c_str(), "VS", "vs_4_0", &m_pVSBlob );
   if (FAILED(hr))
   {
-    ReportError("Failed to compile vertex shader for " + fxFileName);
     return false;
   }
 
