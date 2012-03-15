@@ -85,9 +85,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SimplestShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="simplest.fx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SimplestShader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

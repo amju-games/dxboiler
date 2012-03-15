@@ -1,6 +1,8 @@
 /*
 DX Boiler: boilerplate code for DX11 projects.
 This source code (c) Copyright Jason Colman 2012.
+
+SIMPLEST
 */
 
 #include <iostream>
@@ -8,7 +10,7 @@ This source code (c) Copyright Jason Colman 2012.
 #include "ReportError.h"
 #include "Teapot.h"
 #include "DX11VertexBuffer.h"
-#include "DX11Shader.h"
+#include "SimplestShader.h"
 
 int main(int argc, char **argv)
 {
