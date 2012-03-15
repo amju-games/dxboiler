@@ -12,6 +12,11 @@ This source code (c) Copyright Jason Colman 2012.
 #include <assert.h>
 #include "DX11Shader.h"
 
+DX11VertexBuffer::DX11VertexBuffer()
+{
+  m_createdInputLayout = false;
+}
+
 bool DX11VertexBuffer::SetFromTris(const Tris& tris)
 {
   int numTris = tris.size();
@@ -44,23 +49,27 @@ void DX11VertexBuffer::Draw(ID3D11DeviceContext* dc, ID3D11Device* dd, DX11Shade
   // Set primitive topology
   dc->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-  // Define the input layout
-  D3D11_INPUT_ELEMENT_DESC layout[] =
+  if (!m_createdInputLayout)
   {
-      { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-      { "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-      { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 }
-  };
-  UINT numElements = ARRAYSIZE(layout);
+    // Define the input layout
+    D3D11_INPUT_ELEMENT_DESC layout[] =
+    {
+        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+        { "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+        { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+    };
+    UINT numElements = ARRAYSIZE(layout);
 
-  // Create the input layout
-  HRESULT hr = dd->CreateInputLayout(layout, numElements, shader->GetBufferPointer(),
-                                          shader->GetBufferSize(), &m_pVertexLayout);
+    // Create the input layout
+    HRESULT hr = dd->CreateInputLayout(layout, numElements, shader->GetBufferPointer(),
+                                            shader->GetBufferSize(), &m_pVertexLayout);
 
-  if (FAILED(hr))
-  {
-    assert(0);
-    return;
+    if (FAILED(hr))
+    {
+      assert(0);
+      return;
+    }
+    m_createdInputLayout = true;
   }
 
   // Set the input layout
