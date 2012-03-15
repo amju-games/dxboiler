@@ -223,16 +223,46 @@ ID3D11Device* DX11::GetDevice()
   return g_pd3dDevice;
 }
 
+static LRESULT CALLBACK MyDefaultWndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
+{
+  PAINTSTRUCT ps;
+  HDC hdc;
+
+  switch( message )
+  {
+  case WM_PAINT:
+    hdc = BeginPaint( hWnd, &ps );
+    EndPaint( hWnd, &ps );
+    break;
+
+  case WM_DESTROY:
+    PostQuitMessage( 0 );
+    break;
+
+  case WM_CLOSE:
+    exit(0); 
+    return 0;
+
+  case WM_QUIT:
+    exit(0);
+    return 0;
+
+  default:
+    return DefWindowProc( hWnd, message, wParam, lParam );
+  }
+
+  return 0;
+}
+
 bool DX11::CreateWindow()
 {
   static LPCWSTR AMJU_WINDOW_CLASS_NAME = L"MY_WINDOWS_CLASS";
-//  assert(m_wndproc);
 
   // Register class
   WNDCLASSEX wcex;
   wcex.cbSize = sizeof( WNDCLASSEX );
   wcex.style = CS_HREDRAW | CS_VREDRAW;
-  wcex.lpfnWndProc = DefWindowProc; // TODO TEMP TEST 
+  wcex.lpfnWndProc = MyDefaultWndProc; // TODO you should supply your own
   wcex.cbClsExtra = 0;
   wcex.cbWndExtra = 0;
   wcex.hInstance = g_hInst; 
@@ -248,12 +278,12 @@ bool DX11::CreateWindow()
   HWND hWnd = CreateWindowEx(
     NULL, 
     AMJU_WINDOW_CLASS_NAME, 
-    L"Amju",
+    L"DX Boiler", // TODO you should supply a window title
     WS_OVERLAPPEDWINDOW | WS_VISIBLE,		
     0, 
     0, 
-    640, // TODO w->GetWidth(), 
-    480, // w->GetHeight(), 
+    640, // TODO you should supply width 
+    480, // ..and height 
     NULL, 
     NULL, 
     g_hInst, 
@@ -264,7 +294,6 @@ bool DX11::CreateWindow()
     return false; 
   }
 
-//  SetHWnd(hWnd);
   ShowWindow(hWnd, SW_SHOW);
   UpdateWindow(hWnd);
   g_hWnd = hWnd;
@@ -279,6 +308,15 @@ bool DX11::CreateWindow()
 
 void DX11::Flip()
 {
+  // First check for events
+  MSG  msg;
+  while (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
+  {
+    TranslateMessage(&msg);
+    DispatchMessage(&msg);
+  }
+
+  // The actual flip
   g_pSwapChain->Present(0, 0);
 }
 
@@ -429,8 +467,8 @@ void DX11::DrawTriList(const Tris& tris)
 */
 
 //void DX11::DrawIndexedTriList(
-//  const AmjuGL::Verts& verts,
-//  const AmjuGL::IndexedTriList& indexes)
+//  const Verts& verts,
+//  const IndexedTriList& indexes)
 //{
 //  ;
 //
