@@ -86,6 +86,7 @@
     <ClCompile Include="DX11.cpp" />
     <ClCompile Include="DX11Drawable.cpp" />
     <ClCompile Include="DX11Shader.cpp" />
+    <ClCompile Include="DX11Texture.cpp" />
     <ClCompile Include="DX11VertexBuffer.cpp" />
     <ClCompile Include="DX11ShaderFile.cpp" />
     <ClCompile Include="ReportError.cpp" />
@@ -96,10 +97,14 @@
     <ClInclude Include="DX11.h" />
     <ClInclude Include="DX11Drawable.h" />
     <ClInclude Include="DX11Shader.h" />
+    <ClInclude Include="DX11Texture.h" />
     <ClInclude Include="DX11VertexBuffer.h" />
     <ClInclude Include="DX11ShaderFile.h" />
     <ClInclude Include="ReportError.h" />
     <ClInclude Include="Teapot.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\readme.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

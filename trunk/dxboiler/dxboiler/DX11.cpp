@@ -671,6 +671,7 @@ void DX11::Disable(unsigned int flag)
 }
 */
 
+/*
 void DX11::DestroyTextureHandle(TextureHandle*)
 {
   // TODO Release texture 
@@ -770,5 +771,11 @@ void DX11::SetTexture(
 void DX11::UseTexture(TextureHandle th)
 {
   g_pTextureRV = reinterpret_cast<ID3D11ShaderResourceView*>(th);
+}
+*/
+
+void DX11::UseTexture(DX11Texture* tex)
+{
+  tex->UseThisTexture(g_pImmediateContext);
 }
 
