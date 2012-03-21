@@ -39,9 +39,6 @@ XMMATRIX g_Projection;
 ID3D11Texture2D*        g_pDepthStencil = 0;
 ID3D11DepthStencilView* g_pDepthStencilView = 0;
 
-ID3D11ShaderResourceView*           g_pTextureRV = 0;
-ID3D11SamplerState*                 g_pSamplerLinear = 0;
-
 std::stack<XMMATRIX> mtxStack[3];
 MatrixMode s_matrixMode = DX11_MATRIX_NOTSETYET;
 
@@ -50,16 +47,6 @@ float DegToRad(float degs)
 {
   return degs * 0.017453292f;
 }
-
-//struct ConstantBuffer
-//{
-//  XMMATRIX mView;
-//  XMMATRIX mProjection;
-//
-//  // TODO
-//  //XMFLOAT4 vLightDir[2];
-//  //XMFLOAT4 vLightColor[2];
-//};
 
 //--------------------------------------------------------------------------------------
 // Create Direct3D device and swap chain
@@ -174,48 +161,18 @@ HRESULT InitDevice()
   vp.TopLeftY = 0;
   g_pImmediateContext->RSSetViewports( 1, &vp );
 
-  //// Create the constant buffer
-  //D3D11_BUFFER_DESC bd;
-  //ZeroMemory( &bd, sizeof(bd) );
-  //bd.Usage = D3D11_USAGE_DEFAULT;
-  //bd.ByteWidth = sizeof(ConstantBuffer);
-  //bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-  //bd.CPUAccessFlags = 0;
-  //hr = g_pd3dDevice->CreateBuffer( &bd, NULL, &g_pConstantBuffer );
-  //if (FAILED(hr))
-  //  return hr;
-
-  // Create the sample state
-  D3D11_SAMPLER_DESC sampDesc;
-  ZeroMemory(&sampDesc, sizeof(sampDesc));
-  sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-  sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-  sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-  sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-  sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-  sampDesc.MinLOD = 0;
-  sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
-  hr = g_pd3dDevice->CreateSamplerState(&sampDesc, &g_pSamplerLinear);
-  if (FAILED(hr))
-    return hr;
-
   return S_OK;
 }
 
 void DX11::CleanUp()
 {
   if( g_pImmediateContext ) g_pImmediateContext->ClearState();
-
-  if( g_pSamplerLinear ) g_pSamplerLinear->Release();
-  if( g_pTextureRV ) g_pTextureRV->Release();
-//  if( g_pConstantBuffer ) g_pConstantBuffer->Release();
   if( g_pRenderTargetView ) g_pRenderTargetView->Release();
   if( g_pDepthStencil ) g_pDepthStencil->Release();
   if( g_pDepthStencilView ) g_pDepthStencilView->Release();
   if( g_pSwapChain ) g_pSwapChain->Release();
   if( g_pImmediateContext ) g_pImmediateContext->Release();
   if( g_pd3dDevice ) g_pd3dDevice->Release();
-//  delete m_defaultShader;
 }
 
 ID3D11Device* DX11::GetDevice()
@@ -366,114 +323,10 @@ void DX11::LookAt(float eyeX, float eyeY, float eyeZ, float x, float y, float z,
 
 void DX11::Draw(DX11Drawable* vb)
 {
-  // Should be in shader
-  //ConstantBuffer cb;
-  ///cb.mWorld = XMMatrixTranspose( g_World );
-  //cb.mView = XMMatrixTranspose( g_View ); // TODO Why transpose
-  //cb.mProjection = XMMatrixTranspose( g_Projection );
-
-  //  float view[16];
-  //  DX11::GetMatrix(DX11_MODELVIEW_MATRIX, view);
-  //  float proj[16];
-  //  DX11::GetMatrix(DX11_PROJECTION_MATRIX, proj);
-
-  //  cb.mView = XMMatrixTranspose(view); //DX11::GetMatrix(DX11_); // TODO Why transpose
-  //  cb.mProjection = XMMatrixTranspose(proj);
-
-  //g_pImmediateContext->UpdateSubresource( g_pConstantBuffer, 0, NULL, &cb, 0, 0 );
-  //g_pImmediateContext->VSSetConstantBuffers( 0, 1, &g_pConstantBuffer );
-  
-  //// would like to: 
   m_currentShader->UseThisShader(g_pImmediateContext);
 
   vb->Draw(g_pImmediateContext, g_pd3dDevice, m_currentShader);
 }
-
-/*
-void DX11::DrawTriList(const Tris& tris)
-{
-  assert(m_currentShader);
-
-  int numTris = tris.size();
-
-  // TODO Would be much better to create these once per mesh and reuse rather than
-  //  continually recreating the buffers :-(
-  // This is super inefficient but DX isn't the platform I really care about...
-  ID3D11InputLayout*      g_pVertexLayout = NULL;
-  ID3D11Buffer*           g_pVertexBuffer = NULL;
-
-  D3D11_BUFFER_DESC bd;
-  ZeroMemory(&bd, sizeof(bd));
-  bd.Usage = D3D11_USAGE_DEFAULT;
-  bd.ByteWidth = sizeof(Vert) * numTris * 3;
-  bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-  bd.CPUAccessFlags = 0;
-  D3D11_SUBRESOURCE_DATA InitData;
-  ZeroMemory(&InitData, sizeof(InitData));
-  InitData.pSysMem = &tris[0]; //vertices;
-  HRESULT hr = g_pd3dDevice->CreateBuffer(&bd, &InitData, &g_pVertexBuffer);
-  if (FAILED(hr))
-    return;
-
-  // Set vertex buffer
-  UINT stride = sizeof(Vert);
-  UINT offset = 0;
-  g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);
-
-  // Set primitive topology
-  g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-  // Define the input layout
-  D3D11_INPUT_ELEMENT_DESC layout[] =
-  {
-      { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-      { "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-      { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 }
-  };
-
-  UINT numElements = ARRAYSIZE( layout );
-
-  // Create the input layout
-  hr = g_pd3dDevice->CreateInputLayout( layout, numElements, m_currentShader->GetBufferPointer(),
-                                          m_currentShader->GetBufferSize(), &g_pVertexLayout );
-  // TODO
-  //pVSBlob->Release();
-
-  if( FAILED( hr ) )
-        return;
-
-  // Set the input layout
-  g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
-
-  ConstantBuffer cb;
-  ///cb.mWorld = XMMatrixTranspose( g_World );
-  cb.mView = XMMatrixTranspose( g_View ); // TODO Why transpose
-  cb.mProjection = XMMatrixTranspose( g_Projection );
-  g_pImmediateContext->UpdateSubresource( g_pConstantBuffer, 0, NULL, &cb, 0, 0 );
-
-  m_currentShader->UseThisShader(g_pImmediateContext);
-
-  g_pImmediateContext->VSSetConstantBuffers( 0, 1, &g_pConstantBuffer );
-
-  // Texturing
-  g_pImmediateContext->PSSetShaderResources( 0, 1, &g_pTextureRV );
-  g_pImmediateContext->PSSetSamplers( 0, 1, &g_pSamplerLinear );
-
-  g_pImmediateContext->Draw(numTris * 3, 0);
-
-  if( g_pVertexBuffer ) g_pVertexBuffer->Release();
-  if( g_pVertexLayout ) g_pVertexLayout->Release();
-}
-*/
-
-//void DX11::DrawIndexedTriList(
-//  const Verts& verts,
-//  const IndexedTriList& indexes)
-//{
-//  ;
-//
-//  // TODO
-//}
 
 void DX11::SetMatrixMode(MatrixMode m) 
 {
@@ -605,174 +458,6 @@ void DX11::GetMatrix(MatrixMode mm, float result[16])
     break;
   }
 }
-
-/*
-void DX11::Enable(unsigned int flag)
-{
-  switch (flag)
-  {
-  case AMJU_DEPTH_WRITE:
-    //dd->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE); //EnableZWrite(true);
-    break;
-
-  case AMJU_DEPTH_READ:
-    //dd->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
-    break;
-
-  case AMJU_LIGHTING:
-    //dd->SetRenderState(D3DRS_LIGHTING, TRUE);
-    //dd->LightEnable( 0, TRUE );
-    //{
-    //  const float A = 0.5f;
-    //  dd->SetRenderState( D3DRS_AMBIENT, D3DCOLOR_COLORVALUE(A, A, A, 1.0f ) );
-    //}
-    break;
-
-  case AMJU_BLEND:
-    //dd->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-    break;
-
-  case AMJU_TEXTURE_2D:
-//    dd->SetTexture(0, mostRecentlyUsedTexture); // TODO
-    break;
-  }
-}
-
-void DX11::Disable(unsigned int flag)
-{
-  switch (flag)
-  {
-  case AMJU_DEPTH_WRITE:
-    //dd->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
-    break;
-
-  case AMJU_DEPTH_READ:
-    //dd->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
-    break;
-
-  case AMJU_LIGHTING:
-    // TODO TEMP TEST
-    // If lighting is disabled, set the ambient colour to white.
-    // Then the material colour's ambient value will be used.
-    //dd->SetRenderState( D3DRS_AMBIENT, D3DCOLOR_COLORVALUE( 1.0f, 1.0f, 1.0f, 1.0f ) );
-    
-//    dd->SetRenderState(D3DRS_LIGHTING, FALSE);
-//    dd->LightEnable( 0, FALSE);
-    break;
-
-  case AMJU_BLEND:
-    //dd->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-    break;
-
-  case AMJU_TEXTURE_2D:
-    //dd->SetTexture(0, 0); 
-    break;
-  }
-}
-*/
-
-/*
-void DX11::DestroyTextureHandle(TextureHandle*)
-{
-  // TODO Release texture 
-}
-
-static void CopyRGBATexture(unsigned char* texels, int pitch, const unsigned char* data, int width, int height)
-{
-  for (int y = 0; y < height; y++)
-  {
-    unsigned char* row = texels + y * pitch;
-
-    for (int x = 0; x < width; x++)
-    {
-      row[0] = data[2]; 
-      row[1] = data[1];
-      row[2] = data[0];
-      row[3] = data[3]; // Alpha
-
-      row += 4;
-      data += 4;
-    }
-  }
-}
-
-static void CopyRGBTexture(unsigned char* texels, int pitch, const unsigned char* data, int width, int height)
-{
-  for (int y = 0; y < height; y++)
-  {
-    unsigned char* row = texels + y * pitch;
-
-    for (int x = 0; x < width; x++)
-    {
-        // RGB -> BGR
-      row[0] = data[0];
-      row[1] = data[1];
-      row[2] = data[2];
-      // RGB texture still has 16 bytes per pixel apprently.
-      row[3] = 0;
-      row += 4;
-      data += 3;
-    }
-  }
-}
-
-void DX11::SetTexture(
-  TextureHandle* th, 
-  TextureType tt, 
-  TextureDepth td,  
-  int width, 
-  int height, 
-  unsigned char* data)
-{
-  D3D11_TEXTURE2D_DESC desc;
-  ZeroMemory(&desc, sizeof(desc));
-  desc.Width = width;
-  desc.Height = height;
-  desc.MipLevels = desc.ArraySize = 1;
-  desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-  desc.SampleDesc.Count = 1;
-  desc.Usage = D3D11_USAGE_DYNAMIC;
-  desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-  desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-  ID3D11Texture2D *pTexture = NULL;
-
-  // TODO If RGB, bulk data out to 32 bits
-  unsigned char* padded = 0;
-  if (td == AMJU_RGB)
-  {
-    padded = new unsigned char[4 * width * height];
-    CopyRGBTexture(padded, width * 4, data, width, height);
-  }
-
-  D3D11_SUBRESOURCE_DATA subr;
-  subr.pSysMem = padded ? padded : data;
-  subr.SysMemPitch = width * 4;
-  subr.SysMemSlicePitch = 0;
-  HRESULT hr = g_pd3dDevice->CreateTexture2D(&desc, &subr, &pTexture);
-
-  // Ok to del padded data here ?
-  delete [] padded;
-
-  D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
-  D3D11_RESOURCE_DIMENSION type;
-  pTexture->GetType(&type);
-  assert(type == D3D11_RESOURCE_DIMENSION_TEXTURE2D);
-		
-  srvDesc.Format = desc.Format;
-  srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-  srvDesc.Texture2D.MipLevels = desc.MipLevels;
-  srvDesc.Texture2D.MostDetailedMip = desc.MipLevels - 1;
-
-  hr = g_pd3dDevice->CreateShaderResourceView(pTexture, &srvDesc, &g_pTextureRV);
-
-  *th = reinterpret_cast<int>(g_pTextureRV); // echh...
-}
-
-void DX11::UseTexture(TextureHandle th)
-{
-  g_pTextureRV = reinterpret_cast<ID3D11ShaderResourceView*>(th);
-}
-*/
 
 void DX11::UseTexture(DX11Texture* tex)
 {

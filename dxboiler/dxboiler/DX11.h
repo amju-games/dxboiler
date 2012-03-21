@@ -76,33 +76,8 @@ public:
 
   static void MultMatrix(const float matrix[16]);
 
-//  static void PushAttrib(unsigned int attrib);
-//  static void PopAttrib();
-
-//  static void Enable(unsigned int flags);
-//  static void Disable(unsigned int flags);
-
-  //typedef unsigned int TextureHandle;
-  //enum TextureType { AMJU_TEXTURE_REGULAR, AMJU_TEXTURE_SPHERE_MAP };
-  //enum TextureDepth { AMJU_RGB, AMJU_RGBA };
-
-
-  // Call to delete Texture handle
-//  static void DestroyTextureHandle(TextureHandle*);
-
-  //static void SetTexture(
-  //  TextureHandle*, 
-  //  TextureType, 
-  //  TextureDepth, 
-  //  int width, 
-  //  int height, 
-  //  unsigned char* data);
-
   // Call to use a Texture once set up
   static void UseTexture(DX11Texture* tex);
-
-//  static void SetTextureMode(TextureType tt);
-
 
   static void UseShader(DX11Shader*);
 }; // class 
