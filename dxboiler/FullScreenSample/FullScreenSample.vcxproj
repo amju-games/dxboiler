@@ -11,18 +11,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7B0E15FD-2BF9-478F-BC31-F0C31CBFFE29}</ProjectGuid>
+    <ProjectGuid>{E5D4E9AD-003E-4EA6-812F-BEA3B32348E7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>dxboiler</RootNamespace>
+    <RootNamespace>FullScreenSample</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
@@ -39,17 +39,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
-    <OutDir>..\..\build\dxboiler\$(Configuration)\</OutDir>
-    <IntDir>..\..\build\dxboiler\$(Configuration)\</IntDir>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <IncludePath>$(SolutionDir)dxboiler;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(SolutionDir)..\build\dxboiler\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
-    <OutDir>..\..\build\dxboiler\$(Configuration)\</OutDir>
-    <IntDir>..\..\build\dxboiler\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -62,7 +56,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dx11.lib;d3dx11d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dxboiler.lib;d3d11.lib;d3dx11.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -83,41 +77,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AABB.cpp" />
-    <ClCompile Include="DX11.cpp" />
-    <ClCompile Include="DX11Drawable.cpp" />
-    <ClCompile Include="DX11Shader.cpp" />
-    <ClCompile Include="DX11Texture.cpp" />
-    <ClCompile Include="DX11VertexBuffer.cpp" />
-    <ClCompile Include="DX11ShaderFile.cpp" />
-    <ClCompile Include="Input.cpp" />
-    <ClCompile Include="KeyState.cpp" />
-    <ClCompile Include="LoadObjMesh.cpp" />
-    <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="ReportError.cpp" />
-    <ClCompile Include="Teapot.cpp" />
+    <ClCompile Include="FullScreenQuad.cpp" />
+    <ClCompile Include="FullScreenShader.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AABB.h" />
-    <ClInclude Include="DX11.h" />
-    <ClInclude Include="DX11Drawable.h" />
-    <ClInclude Include="DX11Shader.h" />
-    <ClInclude Include="DX11Texture.h" />
-    <ClInclude Include="DX11VertexBuffer.h" />
-    <ClInclude Include="DX11ShaderFile.h" />
-    <ClInclude Include="DXMesh.h" />
-    <ClInclude Include="InputHandlers.h" />
-    <ClInclude Include="Key.h" />
-    <ClInclude Include="Keyboard.cpp" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="KeyState.h" />
-    <ClInclude Include="LoadObjMesh.h" />
-    <ClInclude Include="MouseState.h" />
-    <ClInclude Include="ReportError.h" />
-    <ClInclude Include="Teapot.h" />
+    <ClInclude Include="FullScreenQuad.h" />
+    <ClInclude Include="FullScreenShader.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\readme.txt" />
+    <None Include="FullScreenShader.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
