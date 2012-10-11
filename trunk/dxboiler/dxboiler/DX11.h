@@ -10,6 +10,8 @@ This source code (c) Copyright Jason Colman 2012.
 #include <vector>
 #include <string>
 #include "DX11Texture.h"
+#include "Input.h"
+
 
 #ifdef CreateWindow
 #undef CreateWindow
@@ -17,6 +19,7 @@ This source code (c) Copyright Jason Colman 2012.
 
 class DX11Shader;
 class DX11Drawable;
+
 
 enum MatrixMode { 
   DX11_MATRIX_NOTSETYET  = -1, 
@@ -28,6 +31,7 @@ class DX11
 {
 public:
   static ID3D11Device* GetDevice();
+  static ID3D11DeviceContext* GetImmediateContext();
 
   // Call to create window
   static bool CreateWindow();
@@ -80,6 +84,10 @@ public:
   static void UseTexture(DX11Texture* tex);
 
   static void UseShader(DX11Shader*);
+
+  static Input* GetInput();
+
+
 }; // class 
 
 #endif

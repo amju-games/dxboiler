@@ -15,6 +15,8 @@ This source code (c) Copyright Jason Colman 2012.
 #include <assert.h>
 #include "DX11Shader.h"
 #include "DX11Drawable.h"
+#include "Input.h"
+#include <iostream>
 
 #ifdef CreateWindow
 #undef CreateWindow
@@ -25,8 +27,8 @@ DX11Shader* m_currentShader;
 
 HINSTANCE               g_hInst = 0;
 HWND                    g_hWnd = 0;
-D3D_DRIVER_TYPE         g_driverType = D3D_DRIVER_TYPE_NULL;
-D3D_FEATURE_LEVEL       g_featureLevel = D3D_FEATURE_LEVEL_11_0;
+D3D_DRIVER_TYPE         g_driverType = D3D_DRIVER_TYPE_HARDWARE;
+D3D_FEATURE_LEVEL       g_featureLevel = D3D_FEATURE_LEVEL_10_0;
 ID3D11Device*           g_pd3dDevice = 0;
 ID3D11DeviceContext*    g_pImmediateContext = 0;
 IDXGISwapChain*         g_pSwapChain = 0;
@@ -41,6 +43,8 @@ ID3D11DepthStencilView* g_pDepthStencilView = 0;
 
 std::stack<XMMATRIX> mtxStack[3];
 MatrixMode s_matrixMode = DX11_MATRIX_NOTSETYET;
+
+Input m_input;
 
 // Lots of this code is pasted from DXSDK tutorials
 float DegToRad(float degs)
@@ -95,6 +99,8 @@ HRESULT InitDevice()
   sd.SampleDesc.Quality = 0;
   sd.Windowed = TRUE;
 
+  std::cout << "Creating Device and SwapChain\n";
+
   for( UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++ )
   {
     g_driverType = driverTypes[driverTypeIndex];
@@ -106,12 +112,14 @@ HRESULT InitDevice()
   if( FAILED( hr ) )
     return hr;
 
-  // Create a render target view
+  std::cout << "Device and SwapChain created \n";
+
+   // Create a render target view
   ID3D11Texture2D* pBackBuffer = NULL;
   hr = g_pSwapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), ( LPVOID* )&pBackBuffer );
   if( FAILED( hr ) )
     return hr;
-
+  
   hr = g_pd3dDevice->CreateRenderTargetView( pBackBuffer, NULL, &g_pRenderTargetView );
   pBackBuffer->Release();
   if( FAILED( hr ) )
@@ -180,6 +188,26 @@ ID3D11Device* DX11::GetDevice()
   return g_pd3dDevice;
 }
 
+void ProcessInputMessage(LPARAM lm)
+{
+	UINT size = 0;
+
+	GetRawInputData((HRAWINPUT)lm,RID_INPUT,NULL,&size,sizeof(RAWINPUTHEADER));
+
+	if (size == 0)
+	{
+		return;
+	}
+
+	LPBYTE lp = new BYTE[size];
+
+	GetRawInputData((HRAWINPUT)lm,RID_INPUT,lp,&size,sizeof(RAWINPUTHEADER));
+
+	RAWINPUT* raw = (RAWINPUT*)lp;
+
+	DX11::GetInput()->AddInputMessage(raw);
+}
+
 static LRESULT CALLBACK MyDefaultWndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
   PAINTSTRUCT ps;
@@ -191,19 +219,23 @@ static LRESULT CALLBACK MyDefaultWndProc( HWND hWnd, UINT message, WPARAM wParam
     hdc = BeginPaint( hWnd, &ps );
     EndPaint( hWnd, &ps );
     break;
-
+  case WM_INPUT:
+	  ProcessInputMessage(lParam);
+	  break;
   case WM_DESTROY:
     PostQuitMessage( 0 );
     break;
-
+  case WM_MOVE:
+	  break;
   case WM_CLOSE:
     exit(0); 
     return 0;
-
+  case WM_CAPTURECHANGED:
+	  break;
   case WM_QUIT:
     exit(0);
     return 0;
-
+ 
   default:
     return DefWindowProc( hWnd, message, wParam, lParam );
   }
@@ -237,8 +269,8 @@ bool DX11::CreateWindow()
     AMJU_WINDOW_CLASS_NAME, 
     L"DX Boiler", // TODO you should supply a window title
     WS_OVERLAPPEDWINDOW | WS_VISIBLE,		
-    0, 
-    0, 
+    100, 
+    100, 
     640, // TODO you should supply width 
     480, // ..and height 
     NULL, 
@@ -255,6 +287,12 @@ bool DX11::CreateWindow()
   UpdateWindow(hWnd);
   g_hWnd = hWnd;
 
+  if (!m_input.Init(&g_hWnd))
+  {
+	  return false;
+  }
+ 
+
   if (InitDevice() != S_OK)
   {
     return false;
@@ -269,10 +307,10 @@ void DX11::Flip()
   MSG  msg;
   while (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
   {
+
     TranslateMessage(&msg);
     DispatchMessage(&msg);
   }
-
   // The actual flip
   g_pSwapChain->Present(0, 0);
 }
@@ -462,5 +500,15 @@ void DX11::GetMatrix(MatrixMode mm, float result[16])
 void DX11::UseTexture(DX11Texture* tex)
 {
   tex->UseThisTexture(g_pImmediateContext);
+}
+
+Input* DX11::GetInput()
+{
+	return &m_input;
+}
+
+ID3D11DeviceContext* DX11::GetImmediateContext()
+{
+	return g_pImmediateContext;
 }
 

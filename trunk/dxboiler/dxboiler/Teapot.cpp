@@ -1368,8 +1368,8 @@ Teapot::Teapot(float scale)
             if ((count & 1))
             {
               // Flip winding of final triangle
-              Tri& t = *(m_tris.rbegin());
-              std::swap(t.m_verts[0], t.m_verts[1]);
+              Tri& tref = *(m_tris.rbegin());
+              std::swap(tref.m_verts[0], tref.m_verts[1]);
             }
           }
           count++;
