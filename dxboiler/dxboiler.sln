@@ -9,8 +9,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simplest", "simplest\simple
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lighting", "lighting\lighting.vcxproj", "{14FA41E5-8DF3-4485-B996-A7F670F64E0B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7B0E15FD-2BF9-478F-BC31-F0C31CBFFE29} = {7B0E15FD-2BF9-478F-BC31-F0C31CBFFE29}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "texturing", "texturing\texturing.vcxproj", "{64DFF8D6-C1E7-4C19-BD1D-69925BB100E0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7B0E15FD-2BF9-478F-BC31-F0C31CBFFE29} = {7B0E15FD-2BF9-478F-BC31-F0C31CBFFE29}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FullScreenSample", "FullScreenSample\FullScreenSample.vcxproj", "{E5D4E9AD-003E-4EA6-812F-BEA3B32348E7}"
 	ProjectSection(ProjectDependencies) = postProject

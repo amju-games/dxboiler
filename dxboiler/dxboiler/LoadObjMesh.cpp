@@ -1,3 +1,8 @@
+/*
+DX Boiler: boilerplate code for DX11 projects.
+This source code (c) Copyright Jason Colman & Petr Tomicek 2012.
+*/
+
 #include "LoadObjMesh.h"
 
 #define _XM_NO_INTRINSICS_
@@ -7,7 +12,6 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-
 
 struct Vertex
 {
@@ -69,13 +73,14 @@ Strings Split(const std::string& cs, char c)
 
 float ToFloat(const std::string& str)
 {
-	return atof(str.c_str());
+	return (float)atof(str.c_str());
 }
 
 int ToInt(const std::string& str)
 {
 	return atoi(str.c_str());
 }
+
 XMFLOAT3 ToVec3(const Strings& strs)
 {
 	if (strs.size() != 4)
@@ -84,6 +89,7 @@ XMFLOAT3 ToVec3(const Strings& strs)
 	}
 	return XMFLOAT3(ToFloat(strs[1]), ToFloat(strs[2]), ToFloat(strs[3]));
 }
+
 XMFLOAT2 ToVec2(const Strings& strs)
 {
 	if (strs.size() != 3)
@@ -101,7 +107,7 @@ struct FaceIndices
 typedef std::vector<XMFLOAT3> TanVec;
 
 
-inline XMFLOAT3 operator+=(XMFLOAT3& a,XMFLOAT3& b)
+inline XMFLOAT3 operator+=(XMFLOAT3& a, XMFLOAT3& b)
 {
 	return XMFLOAT3(a.x + b.x,
 					a.y + b.y,
@@ -181,6 +187,7 @@ public:
 
 		return true;
 	}
+
 	bool GetInteger(int* pIntResult)
 	{
 		std::string s;
@@ -286,12 +293,12 @@ bool LoadObjMesh(DXMesh** MeshInOut, ID3D11DeviceContext* d3dcontext,std::string
 	tan1.resize(vertices.size());
 	tan2.resize(vertices.size());
 
-	for(int i = 0; i < Faces.size(); ++i)
+	for (unsigned int i = 0; i < Faces.size(); ++i)
 	{
 		CalculateTangent1(Faces[i],FIVec[i],tan1,tan2);
 	}
 	
-	for(int i = 0; i < Faces.size(); ++i)
+	for (unsigned int i = 0; i < Faces.size(); ++i)
 	{
 		CalculateTangent2(Faces[i],FIVec[i],tan1,tan2);
 	}

@@ -1,3 +1,8 @@
+/*
+DX Boiler: boilerplate code for DX11 projects.
+This source code (c) Copyright Jason Colman & Petr Tomicek 2012.
+*/
+
 #ifndef Key_h__
 #define Key_h__
 

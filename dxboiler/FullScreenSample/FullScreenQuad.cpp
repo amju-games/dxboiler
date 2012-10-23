@@ -1,7 +1,6 @@
 #include "FullScreenQuad.h"
 #include "FullScreenShader.h"
 
-
 void FullScreenQuad::Draw( ID3D11DeviceContext*context, ID3D11Device*, DX11Shader* shader )
 {
 	UINT strides = sizeof(float)*5;
