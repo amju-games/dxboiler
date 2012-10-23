@@ -2,7 +2,7 @@
 DX Boiler: boilerplate code for DX11 projects.
 This source code (c) Copyright Jason Colman 2012.
 
-LIGHTING
+FULL SCREEN TEXTURE WITH POSTPROCESSING EFFECT
 */
 
 #include <iostream>
@@ -25,7 +25,7 @@ int main(int argc, char **argv)
 
 	DX11Texture texture;
 
-	texture.Load("Jason.jpg");
+	texture.Load("cake.jpg");
 
 	DX11Shader* shader = new FullScreenShader; 
 	// You derive from DX11Shader to do app-specific stuff 

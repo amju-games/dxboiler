@@ -1,13 +1,15 @@
+/*
+DX Boiler: boilerplate code for DX11 projects.
+This source code (c) Copyright Jason Colman & Petr Tomicek 2012.
+*/
+
+#include <iostream>
 #include "Input.h"
 #include "ReportError.h"
-#include <iostream>
 #include "Key.h"
-
 
 bool Input::Init( HWND* window )
 {
-
-
 	if (!m_keyBoard.Init())
 	{
 		return false;
@@ -19,7 +21,6 @@ bool Input::Init( HWND* window )
 	}
 
 	return true;
-
 }
 
 void Input::Update()
@@ -58,12 +59,10 @@ void Input::AddInputMessage( RAWINPUT* raw)
 
 Input::Input()
 {
-
 }
 
 Input::~Input()
 {
-
 }
 
 void Input::AddMouseHandler( int prio,MouseInputHandler* pMH)
@@ -73,25 +72,14 @@ void Input::AddMouseHandler( int prio,MouseInputHandler* pMH)
 
 void Input::AddKeyBoardHandler( int,KeyInputHandler* )
 {
-	
 }
-
-
-
-
-
-
-
-
 
 Input::Keyboard::Keyboard()
 {
-
 }
 
 Input::Keyboard::~Keyboard()
 {
-
 }
 
 bool Input::Keyboard::Init()
@@ -138,13 +126,10 @@ bool Input::Keyboard::Init()
 		}
 	}
 	return true;
-
-
 }
 
 void Input::Keyboard::ProcessKey( RAWKEYBOARD& key )
 {
-	
 	auto it  = m_keys.find(key.VKey);
 
 	if (it != m_keys.end())
@@ -173,23 +158,15 @@ void Input::Keyboard::ProcessKey( RAWKEYBOARD& key )
 		{
 			std::cout << "Key " << currentKey.ascii << " is released \n";
 		}
-
-		
-		
 	}
-
-
-
 }
 
 void Input::Keyboard::Update()
 {
-
 }
 
 void Input::Keyboard::Addhandler( int prio,KeyInputHandler* handler)
 {
 	m_handlersMap.insert(std::pair<int, KeyInputHandler*>(prio,handler));
 }
-
 

@@ -1,6 +1,6 @@
 /*
 DX Boiler: boilerplate code for DX11 projects.
-This source code (c) Copyright Jason Colman 2012.
+This source code (c) Copyright Jason Colman & Petr Tomicek 2012.
 */
 
 #ifndef INPUT_H

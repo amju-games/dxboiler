@@ -1,8 +1,13 @@
+/*
+DX Boiler: boilerplate code for DX11 projects.
+This source code (c) Copyright Jason Colman & Petr Tomicek 2012.
+*/
+
 #ifndef MouseState_h__
 #define MouseState_h__
 
-#include "KeyState.h"
 #include <xnamath.h>
+#include "KeyState.h"
 
 struct MouseState
 {
@@ -11,9 +16,9 @@ struct MouseState
 		LeftButton = KeyState_NotPressed;
 		RightButton = KeyState_NotPressed;
 		MiddleButton = KeyState_NotPressed;
-
 	}
-	KeyState LeftButton;
+
+  KeyState LeftButton;
 	KeyState RightButton;
 	KeyState MiddleButton;
 	float WheelMovement;
@@ -21,4 +26,5 @@ struct MouseState
 	XMFLOAT2 RelativeMovement;
 	XMFLOAT2 ScreenSpacePosition;
 };
+
 #endif // MouseState_h__

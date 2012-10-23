@@ -1,9 +1,13 @@
-#include "Input.h"
+/*
+DX Boiler: boilerplate code for DX11 projects.
+This source code (c) Copyright Jason Colman & Petr Tomicek 2012.
+*/
+
 #include <iostream>
+#include "Input.h"
 
 Input::Mouse::Mouse():m_lastButtonState(0),m_window(NULL),m_leftDown(false),m_rightDown(false),m_middleDown(false)
 {
-
 }
 
 bool Input::Mouse::Init(HWND* window)
@@ -17,33 +21,11 @@ bool Input::Mouse::Init(HWND* window)
 
 	m_window = window;
 
-	return (bool)(RegisterRawInputDevices(&Raw,1,sizeof(Raw)));
+	return (RegisterRawInputDevices(&Raw,1,sizeof(Raw)) == TRUE);
 }
 
 void Input::Mouse::UpdateHandlers()
 {
-	//UpdateKeyState(m_leftDown,m_state.LeftButton);
-
-	//if (m_update || 
-	//	m_state.LeftButton == KeyState_Held )
-	//{
-	//	switch (m_state.LeftButton)
-	//	{
-	//	case KeyState_Pressed:
-	//		std::cout << "Left Button Pressed \n";
-	//		break;
-	//	case KeyState_Held:
-	//		std::cout << "Left Button Held \n";
-	//		break;
-	//	case KeyState_Released:
-	//		std::cout << "Left Button Released \n";
-	//		break;
-	//	case KeyState_NotPressed:
-	//		std::cout << "Left Button Not Pressed \n";
-	//		break;
-	//	}
-	//}
-	
 	for (auto it = m_handlersMap.begin(); it != m_handlersMap.end(); ++it)
 	{
 		if (it->second->ProcessMouseEvent(m_state))
@@ -62,7 +44,6 @@ void Input::Mouse::AddHandler( int prio,MouseInputHandler* pMH)
 
 Input::Mouse::~Mouse()
 {
-
 }
 
 void Input::Mouse::ProcessMouse( RAWMOUSE& mouse )
@@ -96,11 +77,10 @@ void Input::Mouse::ProcessMouse( RAWMOUSE& mouse )
 			mouseCoord.y = client.bottom;
 		}
 
-
-		m_state.Position.x = mouseCoord.x;
-		m_state.Position.y = mouseCoord.y;
-		m_state.RelativeMovement.x = mouse.lLastX;
-		m_state.RelativeMovement.y = mouse.lLastY;
+		m_state.Position.x = (float)mouseCoord.x;
+		m_state.Position.y = (float)mouseCoord.y;
+		m_state.RelativeMovement.x = (float)mouse.lLastX;
+		m_state.RelativeMovement.y = (float)mouse.lLastY;
 
 		if (mouseCoord.x != 0)
 		{
@@ -113,10 +93,8 @@ void Input::Mouse::ProcessMouse( RAWMOUSE& mouse )
 			m_state.ScreenSpacePosition.y = (float)mouseCoord.y / (float)client.bottom ;
 		}
 		else m_state.ScreenSpacePosition.y = 0;
-
 	}
-
-
+  
 	// checking left button 
 	if ((mouse.usButtonFlags & 0x0001))
 	{
@@ -153,11 +131,7 @@ void Input::Mouse::ProcessMouse( RAWMOUSE& mouse )
 	{
 		m_state.WheelMovement = 0;
 	}
-
-
-
 	//std::cout << "Mouse: " << "X: " << m_state.Position.x << " Y: " << m_state.Position.y << "\n\n";
-
 
 	UpdateHandlers();
 }

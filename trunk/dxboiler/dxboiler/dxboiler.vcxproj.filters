@@ -110,13 +110,13 @@
     <ClInclude Include="Input.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
+    <ClInclude Include="InputHandlers.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
     <ClInclude Include="Key.h">
-      <Filter>Source Files\Input</Filter>
+      <Filter>Header Files\Input</Filter>
     </ClInclude>
     <ClInclude Include="MouseState.h">
-      <Filter>Source Files\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="InputHandlers.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
   </ItemGroup>

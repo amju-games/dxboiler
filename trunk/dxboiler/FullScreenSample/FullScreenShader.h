@@ -10,7 +10,7 @@ struct cbFullScreen
 	XMFLOAT2 padding;
 };
 
-class FullScreenShader : public DX11ShaderWithCB<cbFullScreen>,public MouseInputHandler
+class FullScreenShader : public DX11ShaderWithCB<cbFullScreen>, public MouseInputHandler
 {
 public:
 	void UpdateConstantBuffer();
