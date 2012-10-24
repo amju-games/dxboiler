@@ -6,6 +6,7 @@ This source code (c) Copyright Jason Colman 2012.
 #ifndef LIGHTING_SHADER_H_INCLUDED
 #define LIGHTING_SHADER_H_INCLUDED
 
+#define _XM_NO_INTRINSICS_
 #include <DX11Shader.h>
 
 // Mview and proj matrices plus light colour and direction
