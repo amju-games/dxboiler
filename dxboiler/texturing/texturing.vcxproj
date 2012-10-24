@@ -41,11 +41,15 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Include;..\dxboiler;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Lib\x86;..\..\build\dxboiler\Debug;$(LibraryPath)</LibraryPath>
+    <OutDir>..\..\build\texturing\$(Configuration)\</OutDir>
+    <IntDir>..\..\build\texturing\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Lib\x86;..\..\build\dxboiler\Release;$(LibraryPath)</LibraryPath>
     <IncludePath>C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Include;..\dxboiler;$(IncludePath)</IncludePath>
+    <OutDir>..\..\build\texturing\$(Configuration)\</OutDir>
+    <IntDir>..\..\build\texturing\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

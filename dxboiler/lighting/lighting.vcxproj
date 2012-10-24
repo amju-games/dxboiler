@@ -41,11 +41,15 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Include;..\dxboiler;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Lib\x86;..\..\build\dxboiler\Debug;$(LibraryPath)</LibraryPath>
+    <OutDir>..\..\build\lighting\$(Configuration)\</OutDir>
+    <IntDir>..\..\build\lighting\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Include;..\dxboiler;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Lib\x86;..\..\build\dxboiler\Release;$(LibraryPath)</LibraryPath>
+    <OutDir>..\..\build\lighting\$(Configuration)\</OutDir>
+    <IntDir>..\..\build\lighting\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

@@ -14,6 +14,7 @@
     <ProjectGuid>{E5D4E9AD-003E-4EA6-812F-BEA3B32348E7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>FullScreenSample</RootNamespace>
+    <ProjectName>fullScreenBlur</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -41,9 +42,13 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Include;..\dxboiler;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(SolutionDir)..\build\dxboiler\$(Configuration);$(LibraryPath)</LibraryPath>
+    <OutDir>..\..\build\fullscreenblur\$(Configuration)\</OutDir>
+    <IntDir>..\..\build\fullscreenblur\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\..\build\fullscreenblur\$(Configuration)\</OutDir>
+    <IntDir>..\..\build\fullscreenblur\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
