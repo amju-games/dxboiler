@@ -18,10 +18,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "texturing", "texturing\text
 		{7B0E15FD-2BF9-478F-BC31-F0C31CBFFE29} = {7B0E15FD-2BF9-478F-BC31-F0C31CBFFE29}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FullScreenSample", "FullScreenSample\FullScreenSample.vcxproj", "{E5D4E9AD-003E-4EA6-812F-BEA3B32348E7}"
-	ProjectSection(ProjectDependencies) = postProject
-		{7B0E15FD-2BF9-478F-BC31-F0C31CBFFE29} = {7B0E15FD-2BF9-478F-BC31-F0C31CBFFE29}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fullScreenBlur", "fullscreenBlur\FullScreenSample.vcxproj", "{E5D4E9AD-003E-4EA6-812F-BEA3B32348E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
