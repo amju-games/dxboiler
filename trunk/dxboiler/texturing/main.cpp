@@ -61,7 +61,7 @@ int main(int argc, char **argv)
     d += 0.01f;
     DX11::RotateY(d);
     DX11::RotateX(d);
-    DX11::Draw(&box);
+    DX11::Draw(box);
 
     DX11::Flip();
   }

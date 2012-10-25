@@ -52,7 +52,7 @@ int main(int argc, char **argv)
     static float d = 0;
     d += 0.1f;
     DX11::RotateY(d);
-    DX11::Draw(&tp);
+    DX11::Draw(tp);
 
     DX11::Flip();
   }
