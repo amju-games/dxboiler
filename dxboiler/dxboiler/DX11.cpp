@@ -359,11 +359,11 @@ void DX11::LookAt(float eyeX, float eyeY, float eyeZ, float x, float y, float z,
   g_View = XMMatrixLookAtLH(Eye, At, Up);
 }
 
-void DX11::Draw(DX11Drawable* vb)
+void DX11::Draw(DX11Drawable& vb)
 {
   m_currentShader->UseThisShader(g_pImmediateContext);
 
-  vb->Draw(g_pImmediateContext, g_pd3dDevice, m_currentShader);
+  vb.Draw(g_pImmediateContext, g_pd3dDevice, m_currentShader);
 }
 
 void DX11::SetMatrixMode(MatrixMode m) 

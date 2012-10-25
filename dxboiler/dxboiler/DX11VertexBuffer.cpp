@@ -75,7 +75,7 @@ void DX11VertexBuffer::Draw(ID3D11DeviceContext* dc, ID3D11Device* dd, DX11Shade
   // Set the input layout
   dc->IASetInputLayout(m_pVertexLayout);
 
- // shader->UseThisShader(dc); // this is done in DX11::Draw
+  // shader->UseThisShader(dc); // this is done in DX11::Draw
 
   dc->Draw(m_numVerts, 0);
 }

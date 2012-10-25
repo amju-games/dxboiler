@@ -56,7 +56,7 @@ public:
   // Set 'camera': give position of eye, target position and Up vector
   static void LookAt(float eyeX, float eyeY, float eyeZ, float x, float y, float z, float upX, float upY, float upZ);
 
-  static void Draw(DX11Drawable* vb); 
+  static void Draw(DX11Drawable& vb); 
 
   // Set current matrix stack
   static void SetMatrixMode(MatrixMode);
@@ -86,8 +86,6 @@ public:
   static void UseShader(DX11Shader*);
 
   static Input* GetInput();
-
-
 }; // class 
 
 #endif
