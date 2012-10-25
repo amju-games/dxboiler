@@ -1336,6 +1336,8 @@ Teapot::Teapot(float scale)
     Tri t;
     int count = 0;
 
+    Tris tris;
+
     for( i = 0; i < numV-1; i++ )
     {
         int vidx = strip_vertices[i],
@@ -1361,14 +1363,14 @@ Teapot::Teapot(float scale)
 
           if (count > 1)
           {
-            m_tris.push_back(t);
+            tris.push_back(t);
             t.m_verts[0] = t.m_verts[1];
             t.m_verts[1] = t.m_verts[2];
             
             if ((count & 1))
             {
               // Flip winding of final triangle
-              Tri& tref = *(m_tris.rbegin());
+              Tri& tref = *(tris.rbegin());
               std::swap(tref.m_verts[0], tref.m_verts[1]);
             }
           }
@@ -1379,13 +1381,8 @@ Teapot::Teapot(float scale)
           count = 0;
         }
     }
+
+    SetFromTris(tris);
 }
-
-void Teapot::Set(DX11VertexBuffer* vb)
-{
-  vb->SetFromTris(m_tris);
-}
-
-
 
 

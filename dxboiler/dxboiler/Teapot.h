@@ -6,19 +6,12 @@ This source code (c) Copyright Jason Colman 2012.
 #ifndef TEAPOT_H
 #define TEAPOT_H
 
-#include "DX11Drawable.h"
+#include "DX11VertexBuffer.h"
 
-class DX11VertexBuffer;
-
-class Teapot
+class Teapot : public DX11VertexBuffer
 {
 public:
   Teapot(float scale = 1.0f);
-//  void Draw();
-  void Set(DX11VertexBuffer* vb);
-
-private:
-  Tris m_tris;
 };
 
 #endif  // TEAPOT_H

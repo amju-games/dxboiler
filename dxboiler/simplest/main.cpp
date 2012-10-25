@@ -40,8 +40,6 @@ int main(int argc, char **argv)
   DX11::SetPerspectiveProjection(45.0f, 1.3f, 1.0f, 1000.0f);
 
   Teapot tp;
-  DX11VertexBuffer vb;
-  tp.Set(&vb);
 
   while (true)
   {
@@ -54,7 +52,7 @@ int main(int argc, char **argv)
     static float d = 0;
     d += 0.1f;
     DX11::RotateY(d);
-    DX11::Draw(&vb);
+    DX11::Draw(&tp);
 
     DX11::Flip();
   }
