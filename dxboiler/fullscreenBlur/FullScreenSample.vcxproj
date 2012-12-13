@@ -40,8 +40,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Include;..\dxboiler;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(SolutionDir)..\build\dxboiler\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Include;..\dxboiler;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(SolutionDir)..\build\dxboiler\$(Configuration);$(LibraryPath)</LibraryPath>
     <OutDir>..\..\build\fullscreenblur\$(Configuration)\</OutDir>
     <IntDir>..\..\build\fullscreenblur\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -49,6 +49,8 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\..\build\fullscreenblur\$(Configuration)\</OutDir>
     <IntDir>..\..\build\fullscreenblur\$(Configuration)\</IntDir>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;..\dxboiler;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
