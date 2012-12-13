@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------
 // texturing.fx - really simple shader
-// No texturing or lighting, but "fake" phong lighting effect using the 
+// Texturing + "fake" phong lighting effect using the 
 //  interpolated vertex normal
 //--------------------------------------------------------------------------------------
 
