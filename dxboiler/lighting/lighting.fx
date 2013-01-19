@@ -49,12 +49,27 @@ PS_INPUT VS(VS_INPUT input)
 float4 PS(PS_INPUT input) : SV_Target
 {
     float4 finalColor = 0;
+	float specPower = 100;
+	float3 toCamVec = float3(0, 0, 1);
     
-    //do NdotL lighting for 2 lights
-    for(int i=0; i<2; i++)
+	input.Norm = normalize(input.Norm);
+
+    // for each light..
+    for(int i=0; i<1; i++)
     {
+	    // Diffuse/lambert -- N dot L
         finalColor += saturate( dot( (float3)vLightDir[i],input.Norm) * vLightColor[i] );
+
+    	// Specular -- reflect vec dot view vec
+		float3 ref = reflect((float3)vLightDir[i], input.Norm);
+		ref = normalize(ref);
+		float dp = dot(ref, toCamVec);
+		float p = max(dp, 0);
+		float spec = pow(p, specPower); 
+
+		finalColor += float4(spec, spec, spec, 0);
     }
+
     finalColor.a = 1;
     return finalColor;
 }
