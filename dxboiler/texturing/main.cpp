@@ -55,7 +55,7 @@ int main(int argc, char **argv)
 
     DX11::SetMatrixMode(DX11_MODELVIEW_MATRIX);
     DX11::SetIdentity();
-    DX11::LookAt(0, 0, 10,  0, 0, 0,  0, 1, 0);
+    DX11::LookAt(0, 0, 7,  0, 0, 0,  0, 1, 0);
 
     static float d = 0;
     d += 0.01f;

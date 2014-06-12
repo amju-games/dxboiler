@@ -50,12 +50,12 @@ int main(int argc, char **argv)
 
     DX11::SetMatrixMode(DX11_MODELVIEW_MATRIX);
     DX11::SetIdentity();
-    float r = 10.0f;
+    float r = 6.0f;
 
     static float d = 0;
     d += 0.001f;
 
-    DX11::LookAt(r * cos(d), 0, r * sin(d),  0, 0, 0,  0, 1, 0);
+    DX11::LookAt(r * cos(d), 3, r * sin(d),  0, 0, 0,  0, 1, 0);
 
     //DX11::RotateY(d);
     //DX11::RotateZ(d);
