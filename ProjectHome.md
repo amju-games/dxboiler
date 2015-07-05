@@ -1,0 +1,1 @@
+This is a simple MSVC project that provides the boilerplate code for DX11
